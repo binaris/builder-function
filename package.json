@@ -1,0 +1,21 @@
+{
+  "name": "builder-function",
+  "version": "1.0.0",
+  "description": "Builder for reshuffle",
+  "private": true,
+  "scripts": {
+    "start": "reshuffle-local-server",
+    "build": "tsc"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@reshuffle/code-transform": "^0.1.0",
+    "@reshuffle/local-proxy": "^0.3.5",
+    "@reshuffle/server-function": "^0.2.2",
+    "@reshuffle/utils-subprocess": "0.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.7.4"
+  }
+}

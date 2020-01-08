@@ -1,0 +1,27 @@
+SHELL := /bin/bash
+MAKES := $(BINARIS_BASE)/makes
+
+# TODO: this should be defined per service installer
+mount_scheme := nvme
+
+EXTRA_TF_VARS := $(if (and $(service), $(AMI_VERSION)),                       \
+	-var "ami_name_pattern=baked-$(service)-$(mount_scheme)-$(AMI_VERSION)-*" \
+	-var "cloud_init_script_name=zero-bootstrap.sh"                           \
+)
+
+state_s3_key := $(realm)-{{service}}
+export state_s3_key
+CHECK_YOUR_TERRAFORM_VERSION := 1
+TF := $(BINARIS_BASE)/tf/terraform
+TF_PLAN_DIR := $(BINARIS_BASE)/tf
+TF_FLAVORS := $(BINARIS_BASE)/tf/flavors
+
+include $(MAKES)/tf.mk
+
+SERVICES := {{service}}
+
+include $(MAKES)/cm.mk
+
+.PHONY: bake_ami
+bake_ami: require-tag
+	./makes/bake_ami.sh

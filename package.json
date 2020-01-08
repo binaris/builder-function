@@ -11,13 +11,18 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@reshuffle/build-utils": "^0.1.0",
     "@reshuffle/code-transform": "^0.1.0",
     "@reshuffle/local-proxy": "^0.3.5",
     "@reshuffle/server-function": "^0.2.2",
-    "@reshuffle/utils-subprocess": "0.0.2",
-    "express": "^4.17.1"
+    "mz": "^2.7.0",
+    "node-fetch": "^2.6.0",
+    "tar": "^5.0.5"
   },
   "devDependencies": {
+    "@types/mz": "^2.7.0",
+    "@types/node-fetch": "^2.5.4",
+    "@types/tar": "^4.0.3",
     "typescript": "^3.7.4"
   }
 }

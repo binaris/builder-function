@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "start": "reshuffle-local-server",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "echo no linter yet",
+    "test": "echo no tests yet"
   },
   "license": "UNLICENSED",
   "dependencies": {

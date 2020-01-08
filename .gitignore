@@ -1,3 +1,5 @@
 backend
 node_modules
 .reshuffle
+*.Dockerfile
+package-lock.json

@@ -1,0 +1,20 @@
+FROM {{docker_account}}/installer-base:{{installer_base_tag}}
+
+# install general packages
+ENV S11 https://raw.githubusercontent.com/binaris/711/master
+RUN apt-get update && apt-get install -y curl git vim
+RUN curl -sL $S11/ubuntu/node/10.x.sh | bash
+
+# npm install before code (it's slow)
+COPY package.json .
+RUN npm install
+
+# copy install stuff
+COPY makes makes
+COPY reshuffle-deploy.sh reshuffle-destroy.sh ./
+COPY Makefile .
+
+# and the app itself
+COPY tsconfig.json ./
+COPY src src
+COPY backend backend

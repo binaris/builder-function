@@ -1,5 +1,7 @@
 import path from 'path';
 import { tmpdir } from 'os';
+import { createHash } from 'crypto';
+import through from 'through2';
 import express, { Request } from 'express';
 import { createReadStream, mkdtemp } from 'mz/fs';
 import tar from 'tar';
@@ -34,8 +36,11 @@ app.post('/build', async (req, res) => {
     const downloadDir = await getSourceCode(getUrl);
     const buildDir = await build(downloadDir);
     const tarballPath = await createTarball(buildDir);
-    await uploadTarFile(tarballPath, putUrl);
-    res.sendStatus(200);
+    const digest = await uploadTarFile(tarballPath, putUrl);
+    res.status(200);
+    res.end(JSON.stringify({
+      digest
+    }));
   } catch (err) {
     console.error(err);
     res.sendStatus(500);
@@ -45,7 +50,7 @@ app.post('/build', async (req, res) => {
 });
 
 function validateRequest(req: Request): ReqParams {
-  const { getUrl, putUrl, endLabel } = req.body
+  const { getUrl, putUrl, endLabel } = req.body;
   if (typeof getUrl !== 'string') {
     throw new Error('"getUrl" must be a string.');
   }
@@ -87,14 +92,21 @@ async function getSourceCode(tarFileUrl: string): Promise<string> {
   return downloadDir;
 }
 
-async function uploadTarFile(tarballPath: string, url: string): Promise<void> {
+async function uploadTarFile(tarballPath: string, url: string): Promise<string> {
   console.log('Uploading project...')
+
+  const hash = createHash('sha256');
   const { ok, status, statusText } = await fetch(url, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/gzip',
     },
-    body: createReadStream(tarballPath),
+    body: createReadStream(tarballPath).pipe(through(function(chunk, _env, cb) {
+      // This updates the hash/digest while reading and uploading the file
+      hash.update(chunk);
+      this.push(chunk);
+      cb();
+    })),
   });
 
   if (!ok) {
@@ -102,7 +114,7 @@ async function uploadTarFile(tarballPath: string, url: string): Promise<void> {
   }
   console.log('done!');
 
-  return;
+  return hash.digest('hex').toString();
 }
 
 export default app;

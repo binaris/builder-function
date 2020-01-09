@@ -17,12 +17,14 @@
     "@reshuffle/server-function": "^0.2.2",
     "mz": "^2.7.0",
     "node-fetch": "^2.6.0",
-    "tar": "^5.0.5"
+    "tar": "^5.0.5",
+    "through2": "^3.0.1"
   },
   "devDependencies": {
     "@types/mz": "^2.7.0",
     "@types/node-fetch": "^2.5.4",
     "@types/tar": "^4.0.3",
+    "@types/through2": "^2.0.34",
     "typescript": "^3.7.4"
   }
 }

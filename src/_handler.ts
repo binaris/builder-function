@@ -6,12 +6,14 @@ import express, { Request } from 'express';
 import { createReadStream, mkdtemp } from 'mz/fs';
 import tar from 'tar';
 import fetch from 'node-fetch';
+import isPlainObject from 'is-plain-object';
 import { build, createTarball } from '@reshuffle/build-utils';
 
 interface ReqParams {
   getUrl: string;
   putUrl: string;
   finishMarker: string;
+  env: Record<string, string>;
 }
 
 const app = express();
@@ -30,6 +32,7 @@ app.post('/build', async (req, res) => {
     return;
   }
 
+  // TODO: destruct 'env' here and provide it to 'build()' in a few lines once build-utils is updated.
   const { getUrl, putUrl, finishMarker } = params;
 
   try {
@@ -50,7 +53,7 @@ app.post('/build', async (req, res) => {
 });
 
 function validateRequest(req: Request): ReqParams {
-  const { getUrl, putUrl, finishMarker } = req.body;
+  const { getUrl, putUrl, finishMarker, env: inputEnv } = req.body;
   if (typeof getUrl !== 'string') {
     throw new Error('"getUrl" must be a string.');
   }
@@ -60,10 +63,18 @@ function validateRequest(req: Request): ReqParams {
   if (typeof finishMarker !== 'string') {
     throw new Error('"finishMarker" must be a string.');
   }
+
+  const env = inputEnv || {};
+  if (!isPlainObject(env) ||
+      Object.keys(env).some((k) => typeof k !== 'string' || typeof env[k] !== 'string')) {
+    throw new Error('"env" must be an object containing only strings.');
+  }
+
   return {
     getUrl,
     putUrl,
     finishMarker,
+    env,
   };
 }
 

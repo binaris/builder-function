@@ -6,7 +6,7 @@
   "scripts": {
     "start": "reshuffle-local-server",
     "build": "tsc",
-    "lint": "echo no linter yet",
+    "lint": "eslint --ext .ts src",
     "test": "echo no tests yet"
   },
   "license": "UNLICENSED",
@@ -21,6 +21,7 @@
     "through2": "^3.0.1"
   },
   "devDependencies": {
+    "@binaris/buildutils": "^2.1.0",
     "@types/mz": "^2.7.0",
     "@types/node-fetch": "^2.5.4",
     "@types/tar": "^4.0.3",

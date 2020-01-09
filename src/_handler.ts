@@ -9,9 +9,9 @@ import fetch from 'node-fetch';
 import { build, createTarball } from '@reshuffle/build-utils';
 
 interface ReqParams {
-  getUrl: string,
-  putUrl: string,
-  endLabel: string,
+  getUrl: string;
+  putUrl: string;
+  endLabel: string;
 }
 
 const app = express();
@@ -39,7 +39,7 @@ app.post('/build', async (req, res) => {
     const digest = await uploadTarFile(tarballPath, putUrl);
     res.status(200);
     res.end(JSON.stringify({
-      digest
+      digest,
     }));
   } catch (err) {
     console.error(err);
@@ -93,7 +93,7 @@ async function getSourceCode(tarFileUrl: string): Promise<string> {
 }
 
 async function uploadTarFile(tarballPath: string, url: string): Promise<string> {
-  console.log('Uploading project...')
+  console.log('Uploading project...');
 
   const hash = createHash('sha256');
   const { ok, status, statusText } = await fetch(url, {

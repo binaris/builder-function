@@ -16,5 +16,6 @@ COPY Makefile .
 
 # and the app itself
 COPY tsconfig.json ./
+COPY .eslintrc.js ./
 COPY src src
 RUN npm run build

@@ -11,7 +11,7 @@ import { build, createTarball } from '@reshuffle/build-utils';
 interface ReqParams {
   getUrl: string;
   putUrl: string;
-  endLabel: string;
+  finishMarker: string;
 }
 
 const app = express();
@@ -30,7 +30,7 @@ app.post('/build', async (req, res) => {
     return;
   }
 
-  const { getUrl, putUrl, endLabel } = params;
+  const { getUrl, putUrl, finishMarker } = params;
 
   try {
     const downloadDir = await getSourceCode(getUrl);
@@ -45,25 +45,25 @@ app.post('/build', async (req, res) => {
     console.error(err);
     res.sendStatus(500);
   } finally {
-    console.log(endLabel);
+    console.log(finishMarker);
   }
 });
 
 function validateRequest(req: Request): ReqParams {
-  const { getUrl, putUrl, endLabel } = req.body;
+  const { getUrl, putUrl, finishMarker } = req.body;
   if (typeof getUrl !== 'string') {
     throw new Error('"getUrl" must be a string.');
   }
   if (typeof putUrl !== 'string') {
     throw new Error('"putUrl" must be a string.');
   }
-  if (typeof endLabel !== 'string') {
-    throw new Error('"endLabel" must be a string.');
+  if (typeof finishMarker !== 'string') {
+    throw new Error('"finishMarker" must be a string.');
   }
   return {
     getUrl,
     putUrl,
-    endLabel,
+    finishMarker,
   };
 }
 

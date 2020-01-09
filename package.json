@@ -15,6 +15,7 @@
     "@reshuffle/code-transform": "^0.1.0",
     "@reshuffle/local-proxy": "^0.3.5",
     "@reshuffle/server-function": "^0.2.2",
+    "is-plain-object": "^3.0.0",
     "mz": "^2.7.0",
     "node-fetch": "^2.6.0",
     "tar": "^5.0.5",

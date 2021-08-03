@@ -18,7 +18,7 @@
     "is-plain-object": "^3.0.0",
     "mz": "^2.7.0",
     "node-fetch": "^2.6.0",
-    "tar": "^5.0.5",
+    "tar": "^5.0.7",
     "through2": "^3.0.1"
   },
   "devDependencies": {

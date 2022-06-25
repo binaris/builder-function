@@ -17,7 +17,7 @@
     "@reshuffle/server-function": "^0.2.2",
     "is-plain-object": "^3.0.0",
     "mz": "^2.7.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "tar": "^5.0.5",
     "through2": "^3.0.1"
   },
